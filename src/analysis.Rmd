@@ -1,0 +1,13 @@
+---
+title: "2016 SOI Analysis"
+output: html_notebook
+---
+
+
+
+```{r}
+library(tidyverse)
+library(map)
+library(ggplot2)
+```
+
