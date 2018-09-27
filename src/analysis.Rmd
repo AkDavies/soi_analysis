@@ -32,8 +32,9 @@ soi_data <- spark_read_csv(sc, "soi_data",  "../data/2016_SOI.csv")
 zip_to_county <- spark_read_csv(sc, "zip_to_county", "../data/zip_code_to_county_mapping.csv")
 ```
 
+Calculating Statistics
 ```{r}
-soi_data %>% 
+transformed_data <- soi_data %>% 
     filter(zipcode != 0) %>% 
     left_join(zip_to_county, by = c("zipcode" = "zip_code", "STATE" = "state")) %>% 
     filter(!is.na(county)) %>% 
@@ -43,7 +44,52 @@ soi_data %>%
     group_by(STATE, county) %>% 
     mutate(county_total = sum(county_n, na.rm = TRUE), county_percent = 100 * county_n/county_total) %>% 
     arrange(STATE, county, agi_stub) %>% 
-    select(STATE,county, agi_stub, county_n, county_percent)
+    select(STATE,county, agi_stub, county_n, county_percent) %>% 
+    mutate(county = tolower(county)) %>% 
+    collect()
+```
 
+Plotting
+```{r}
+usa_data <- map_data(map = "usa")
+state_data <- map_data(map = "state")
+county_data <- map_data(map = "county") %>% 
+    left_join(transformed_data, by = c("subregion" = "county"))
+ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
+    geom_polygon(data = filter(county_data, agi_stub == 1), aes(fill = county_percent), color = "white") + 
+    geom_polygon(data = state_data, fill = "NA", color = "black") +
+    geom_polygon(fill = NA, color = "black") +
+    coord_fixed()
+
+ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
+    geom_polygon(data = filter(county_data, agi_stub == 2), aes(fill = county_percent), color = "white") + 
+    geom_polygon(data = state_data, fill = "NA", color = "black") +
+    geom_polygon(fill = NA, color = "black") +
+    coord_fixed()
+
+
+ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
+    geom_polygon(data = filter(county_data, agi_stub == 3), aes(fill = county_percent), color = "white") + 
+    geom_polygon(data = state_data, fill = "NA", color = "black") +
+    geom_polygon(fill = NA, color = "black") +
+    coord_fixed()
+
+ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
+    geom_polygon(data = filter(county_data, agi_stub == 4), aes(fill = county_percent), color = "white") + 
+    geom_polygon(data = state_data, fill = "NA", color = "black") +
+    geom_polygon(fill = NA, color = "black") +
+    coord_fixed()
+
+ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
+    geom_polygon(data = filter(county_data, agi_stub == 5), aes(fill = county_percent), color = "white") + 
+    geom_polygon(data = state_data, fill = "NA", color = "black") +
+    geom_polygon(fill = NA, color = "black") +
+    coord_fixed()
+
+ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
+    geom_polygon(data = filter(county_data, agi_stub == 6), aes(fill = county_percent), color = "white") + 
+    geom_polygon(data = state_data, fill = "NA", color = "black") +
+    geom_polygon(fill = NA, color = "black") +
+    coord_fixed()
 ```
 
