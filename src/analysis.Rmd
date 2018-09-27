@@ -55,41 +55,54 @@ usa_data <- map_data(map = "usa")
 state_data <- map_data(map = "state")
 county_data <- map_data(map = "county") %>% 
     left_join(transformed_data, by = c("subregion" = "county"))
+
 ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
     geom_polygon(data = filter(county_data, agi_stub == 1), aes(fill = county_percent), color = "white") + 
     geom_polygon(data = state_data, fill = "NA", color = "black") +
     geom_polygon(fill = NA, color = "black") +
-    coord_fixed()
+    coord_fixed() + 
+    theme_void() + 
+    scale_fill_gradient(low = "white", high = "#85bb65")
 
 ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
     geom_polygon(data = filter(county_data, agi_stub == 2), aes(fill = county_percent), color = "white") + 
     geom_polygon(data = state_data, fill = "NA", color = "black") +
     geom_polygon(fill = NA, color = "black") +
-    coord_fixed()
+    coord_fixed() + 
+    theme_void() + 
+    scale_fill_gradient(low = "white", high = "#85bb65")
 
 
 ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
     geom_polygon(data = filter(county_data, agi_stub == 3), aes(fill = county_percent), color = "white") + 
     geom_polygon(data = state_data, fill = "NA", color = "black") +
     geom_polygon(fill = NA, color = "black") +
-    coord_fixed()
+    coord_fixed() + 
+    theme_void() + 
+    scale_fill_gradient(low = "white", high = "#85bb65")
 
 ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
     geom_polygon(data = filter(county_data, agi_stub == 4), aes(fill = county_percent), color = "white") + 
     geom_polygon(data = state_data, fill = "NA", color = "black") +
     geom_polygon(fill = NA, color = "black") +
-    coord_fixed()
+    coord_fixed() + 
+    theme_void() + 
+    scale_fill_gradient(low = "white", high = "#85bb65")
 
 ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
     geom_polygon(data = filter(county_data, agi_stub == 5), aes(fill = county_percent), color = "white") + 
     geom_polygon(data = state_data, fill = "NA", color = "black") +
     geom_polygon(fill = NA, color = "black") +
-    coord_fixed()
+    coord_fixed() + 
+    theme_void() + 
+    scale_fill_gradient(low = "white", high = "#85bb65")
 
 ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
     geom_polygon(data = filter(county_data, agi_stub == 6), aes(fill = county_percent), color = "white") + 
     geom_polygon(data = state_data, fill = "NA", color = "black") +
     geom_polygon(fill = NA, color = "black") +
-    coord_fixed()
+    coord_fixed() + 
+    theme_void() + 
+    scale_fill_gradient(low = "white", high = "#85bb65")
 ```
 
