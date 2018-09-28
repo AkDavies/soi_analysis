@@ -12,6 +12,7 @@ library(tidyverse)
 library(ggplot2)
 library(maps)
 library(sparklyr)
+library(gganimate)
 ```
 
 
@@ -21,7 +22,7 @@ Configuring Spark Server
 ```{r}
 conf <- spark_config()
 conf$`spark.memory.fraction` <- 0.9
-conf$`sparklyr.shell.driver-memory` <- "4G"
+conf$`sparklyr.shell.driver-memory` <- "1G"
 conf$spark.dynamicAllocation.enabled="true"
 sc <- spark_connect(master = "local", config = conf)
 ```
@@ -104,5 +105,17 @@ ggplot(data = usa_data, mapping = aes(x = long, y = lat,  group = group)) +
     coord_fixed() + 
     theme_void() + 
     scale_fill_gradient(low = "white", high = "#85bb65")
+```
+
+Animation
+```{r}
+ggplot(data = county_data, mapping = aes(x = long, y = lat,  group = group, fill = county_percent)) +
+    # geom_polygon(data = , aes(fill = county_percent), color = "white") + 
+    geom_polygon(data = state_data, fill = "NA", color = "black") +
+    geom_polygon(fill = NA, color = "black") +
+    coord_fixed() + 
+    theme_void() + 
+    scale_fill_gradient(low = "white", high = "#85bb65") + 
+    transition_states(agi_stub, 2, 1)
 ```
 
